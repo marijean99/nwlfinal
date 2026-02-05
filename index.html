@@ -80,8 +80,11 @@
     
     .float {
       position: absolute;
-      animation: float 4s ease-in-out infinite;
+      /*animation: float 4s ease-in-out infinite;*/
       opacity: 0.9;
+      animation-name: float;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
     }
     
    /* .f4 { top: 40px; right: 40px; width: 70px;} */
@@ -91,7 +94,7 @@
 
     @keyframes float {
       0% { transform: translateY(0); }
-      50% { transform: translateY(-22px); }
+      50%  { transform: translateY(var(--float-distance)); }
       100% { transform: translateY(0); }
     }
 
@@ -257,7 +260,7 @@
     <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbHxs40%2FdJMcafZLxTg%2FAAAAAAAAAAAAAAAAAAAAAPdXBTNELN2NaaGEvCENyWUex2exfXyf1U05B74pwp-T%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1772290799%26allow_ip%3D%26allow_referer%3D%26signature%3DPvzyt5CZ%252F%252BHl%252FnAKSAa9y2XL%252F7o%253D" class="float f1" alt="owl blue" />
     <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FcclLBI%2FdJMcagEpyju%2FAAAAAAAAAAAAAAAAAAAAAFnEpylQd4U_v_C0WkyG5H8HqpVjf0D_OOYpGkvfSGP-%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1772290799%26allow_ip%3D%26allow_referer%3D%26signature%3DkQh%252BXMTVXCedlthwusts12iTQe8%253D" class="float f2" alt="owl white" />
     <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbJDOlz%2FdJMcagRVXHB%2FAAAAAAAAAAAAAAAAAAAAAPwnxD2f4VWmUG8agG1CK6AaQP-C8eaJdPepo9VcjC_G%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1772290799%26allow_ip%3D%26allow_referer%3D%26signature%3DjmZEPWTRyhUgB4OTTB8fCkgkpGE%253D" class="float f3" alt="owl light" />
-    <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbhxpTE%2FdJMcagRVXHA%2FAAAAAAAAAAAAAAAAAAAAANcA1fuOqyVrjnX60IdZjFsk3ELPh8QiCI99iu6HKvYQ%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1772290799%26allow_ip%3D%26allow_referer%3D%26signature%3DAS40kHhR4mgcJN%252BJuv14%252B9jn%252FHI%253D" class="float f4" alt="owl logo" />
+  
   </div>
 
   <main>
@@ -319,6 +322,24 @@
       <br>
       <a href="https://spin-spin.com/OwlneT">spin-spin</a>
     </div>
+  
+  <script>
+   document.querySelectorAll('.float').forEach(el => {
+    // 이동 거리 (px)
+    const distance = Math.random() * 30 + 10; // 10~40px
 
+    // 속도 (초)
+    const duration = Math.random() * 4 + 3; // 3~7초
+
+    // 시작 딜레이
+    const delay = Math.random() * 5; // 0~5초
+
+    el.style.setProperty('--float-distance', `-${distance}px`);
+    el.style.animationDuration = `${duration}s`;
+    el.style.animationDelay = `${delay}s`;
+   });
+  </script>
+  
+  
 </body>
 </html>
