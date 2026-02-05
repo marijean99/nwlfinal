@@ -65,14 +65,26 @@
       z-index: 0;
       pointer-events: none;
     }
+    .logo {
+       position: fixed;
+       top: 30px;
+      right: 30px;
+      z-index: 10;
+      opacity: 0.9;
+    }
 
+    .logo img {
+      width: 80px;
+      opacity: 0.9;
+    }
+    
     .float {
       position: absolute;
       animation: float 4s ease-in-out infinite;
       opacity: 0.9;
     }
     
-    .f4 { top: 40px; right: 40px; width: 70px;}
+   /* .f4 { top: 40px; right: 40px; width: 70px;} */
     .f1 { top: 20%; left: 18%; width: 110px;}
     .f2 { top: 47%; right: 20%; width: 130px;}
     .f3 { bottom: 10%; left: 25%; width: 90px;}
@@ -236,7 +248,11 @@
   </style>
 </head>
 <body>
-
+<!-- logo -->
+    <div class="logo">
+      <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbhxpTE%2FdJMcagRVXHA%2FAAAAAAAAAAAAAAAAAAAAANcA1fuOqyVrjnX60IdZjFsk3ELPh8QiCI99iu6HKvYQ%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1772290799%26allow_ip%3D%26allow_referer%3D%26signature%3DAS40kHhR4mgcJN%252BJuv14%252B9jn%252FHI%253D" alt="Owl.net Logo">
+    </div>
+  
   <div class="bg-layer">
     <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbHxs40%2FdJMcafZLxTg%2FAAAAAAAAAAAAAAAAAAAAAPdXBTNELN2NaaGEvCENyWUex2exfXyf1U05B74pwp-T%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1772290799%26allow_ip%3D%26allow_referer%3D%26signature%3DPvzyt5CZ%252F%252BHl%252FnAKSAa9y2XL%252F7o%253D" class="float f1" alt="owl blue" />
     <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FcclLBI%2FdJMcagEpyju%2FAAAAAAAAAAAAAAAAAAAAAFnEpylQd4U_v_C0WkyG5H8HqpVjf0D_OOYpGkvfSGP-%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1772290799%26allow_ip%3D%26allow_referer%3D%26signature%3DkQh%252BXMTVXCedlthwusts12iTQe8%253D" class="float f2" alt="owl white" />
