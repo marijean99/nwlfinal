@@ -93,10 +93,19 @@
     .f3 { bottom: 10%; left: 25%; width: 90px;}
 
     @keyframes float {
-      0% { transform: translateY(0); }
-      50%  { transform: translateY(var(--float-distance)); }
-      100% { transform: translateY(0); }
-    }
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(
+      var(--float-x),
+      var(--float-distance)
+    );
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
 
     
     /* content layer */
@@ -247,22 +256,7 @@
       opacity: 1;
       text-decoration: underline;
     }
-<script>
-   document.querySelectorAll('.float').forEach(el => {
-    // 이동 거리 (px)
-    const distance = Math.random() * 30 + 10; // 10~40px
 
-    // 속도 (초)
-    const duration = Math.random() * 4 + 3; // 3~7초
-
-    // 시작 딜레이
-    const delay = Math.random() * 5; // 0~5초
-
-    el.style.setProperty('--float-distance', `-${distance}px`);
-    el.style.animationDuration = `${duration}s`;
-    el.style.animationDelay = `${delay}s`;
-   });
-  </script>
   </style>
 </head>
 <body>
@@ -330,7 +324,18 @@
     <!-- qna -->
     <a href="https://spin-spin.com/OWLNWL"><button id="qna">QnA</button></a>
 
+<script>
+  document.querySelectorAll('.float').forEach(el => {
+    const distance = Math.random() * 30 + 10; // 10~40px
+    const duration = Math.random() * 4 + 3;  // 3~7초
+    const delay = Math.random() * 5;         // 0~5초
 
+    el.style.setProperty('--float-distance', `-${distance}px`);
+    el.style.animationDuration = `${duration}s`;
+    el.style.animationDelay = `${delay}s`;
+  });
+</script>
+  
     <!-- Contact -->
     <!--<div class="contact">
       <a href="https://x.com/nwloversclub">X</a>
