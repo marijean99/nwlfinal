@@ -175,6 +175,7 @@ body {
   transform-origin: top center;
   animation: paperOpen .6s cubic-bezier(.22,1.1,.36,1);
   box-shadow: 0 14px 32px rgba(0,0,0,.18);
+  
 }
 
 .letter.티셔츠 { background: #ffe969; }
@@ -195,19 +196,30 @@ body {
   position: relative;
   margin: 16px 0 10px;
 }
-.letter-visual { width: 100%; }
 
-
-  .grade-wrap {
+ .grade-wrap {
   position: absolute;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
 }
+  
   .grade {
-  position: relative;
-  }
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.result-group {
+  margin: 6px 0;
+}
+ 
+.letter-visual { width: 100%; }
+
+
+  
 
 /* 팝업 버튼 */
 .popup-btn {
@@ -265,15 +277,17 @@ body {
   <div class="letter">
     <div class="letter-visual-wrap">
       <img class="letter-visual" src="https://buly.kr/G3ElTFD">
-      <div class="grade" id="result"></div>
+
+      <!-- ✅ 결과 텍스트는 여기 -->
+      <div class="grade-wrap">
+        <div class="grade" id="result"></div>
+      </div>
+
     </div>
     <button class="popup-btn" onclick="closePopup()">OK</button>
   </div>
-  <div class="grade-wrap">
-  <div class="grade" id="result"></div>
 </div>
 
-</div>
 
 <audio id="rustleSound" preload="auto">
   <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_0c9b0d66d8.mp3">
