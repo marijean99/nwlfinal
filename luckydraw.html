@@ -173,17 +173,17 @@ body {
 
   /* ---------------- draw count stepper ---------------- */
 .draw-stepper {
-  widthL:70px
-  max-width:90%
-
-  margin-top: 16px;
+  margin-top: 16px; /* drawBtn 아래로 내려오기 */
+  width: 30%;
   display: flex;
   align-items: center;
   background: #fff;
-  border: 2px solid #92d2ff; /* 하늘색 테두리 */
+  border: 2px solid #92d2ff;
   border-radius: 12px;
   padding: 10px 14px;
   gap: 14px;
+}
+
 }
 
 .draw-stepper input {
@@ -243,11 +243,10 @@ body {
 <div class="draw-area">
   <div class="draw-trigger" id="drawBtn">
     <img src="https://buly.kr/90cSIXz">
+  </div>
     <div class="draw-stepper">
   <button class="step-btn left" onclick="changeCount(-1, event)">◀</button>
-
   <input type="text" id="drawCount" value="1" readonly>
-
   <button class="step-btn right" onclick="changeCount(1, event)">▶</button>
 </div>
 
