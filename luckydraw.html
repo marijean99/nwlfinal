@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Lucky Draw</title>
 
 <style>
@@ -18,13 +17,9 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-
-  -webkit-tap-highlight-color: transparent; /* 모바일 터치 강조 제거 */
+  -webkit-tap-highlight-color: transparent;
 }
 
-
-
-  
 /* ---------------- fixed UI ---------------- */
 .logo {
   position: fixed;
@@ -47,22 +42,16 @@ body {
   padding: 6px 14px;
   z-index: 10;
 }
-.back:hover {
-  opacity: 1;
-  background: rgba(0,0,0,0.05);
-}
 
 /* ---------------- draw area ---------------- */
 .draw-area {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
 }
 
 .draw-trigger {
   touch-action: manipulation;
-  position: relative;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -72,374 +61,13 @@ body {
 .draw-trigger img {
   width: 90%;
   max-width: 800px;
-  margin-bottom: 20px; /* 박스 아래 여백 */
+  margin-bottom: 20px;
 }
 
-/* 박스 흔들림 */
 .draw-trigger.shake img {
   animation: boxShake .45s ease;
 }
 @keyframes boxShake {
   0% { transform: rotate(0); }
   20% { transform: rotate(-3deg); }
-  40% { transform: rotate(3deg); }
-  60% { transform: rotate(-2deg); }
-  80% { transform: rotate(2deg); }
-  100% { transform: rotate(0); }
-}
-
-/* ---------------- draw count stepper ---------------- */
-.draw-stepper {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border: 2px solid #92d2ff;
-  border-radius: 30px;
-  padding: 10px 14px;
-  gap: 14px;
-}
-
-.draw-stepper input {
-  width: 50px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 600;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: #111;
-}
-
-/* 화살표 버튼 */
-.step-btn {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: none;
-  background: #92d2ff;
-  color: #fff;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.step-btn:hover {
-  opacity: 0.85;
-}
-  
-/* 공통 버튼 스타일 (남은 수량 / RESET) */
-.action-btn {
-  margin-top: 18px;
-  font-size: 13px;
-  font-family: "futura","pretendard";
-  letter-spacing: -0.05em;
-  color: #92d2ff;
-  opacity: 0.75;
-  border: 1px solid #92d2ff;
-  border-radius: 999px;
-  padding: 7px 18px;
-  background: none;
-  cursor: pointer;
-}
-.action-btn:hover { opacity: 1; background: rgba(0,0,0,0.05); }
-
-/* 남은 수량 텍스트 */
-#remainMain {
-  margin-top: 12px;
-  font-size: 12px;
-  line-height: 1.6;
-  white-space: pre-line;
-  display: none;
-  opacity: 0.85;
-}
-
-/* ---------------- popup ---------------- */
-.popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.45);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 20;
-}
-
-/* ---------------- letter ---------------- */
-.letter {
-  width: 250px;
-  padding: 34px 28px 30px;
-  text-align: center;
-  border-radius: 6px;
-  transform-origin: top center;
-  animation: paperOpen .6s cubic-bezier(.22,1.1,.36,1);
-  box-shadow: 0 14px 32px rgba(0,0,0,.18);
-  
-}
-
-.letter.티셔츠 { background: #ffe969; }
-.letter.타월슬로건 { background: #ffad7d; }
-.letter.pvc파우치 { background: #92d2ff; }
-.letter.쿠션키링 { background: #b9e2be; }
-.letter.핀뱃지 { background: #ff9cb5; }
-.letter.엽서세트 { background: #cbc4fe; }
-.letter.스티커 { background: #f0ede8; }
-
-@keyframes paperOpen {
-  0% { transform: scaleY(.6) rotateX(-25deg); opacity: 0; }
-  60% { transform: scaleY(1.05) rotateX(8deg); opacity: 1; }
-  100% { transform: scaleY(1) rotateX(0deg); }
-}
-
-.letter-visual-wrap {
-  position: relative;
-  margin: 16px 0 10px;
-}
-
- .grade-wrap {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-}
-  
-  .grade {
-  text-align: center;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.6;
-}
-
-.result-group {
-  margin: 6px 0;
-}
- 
-.letter-visual { width: 100%; }
-
-
-  
-
-/* 팝업 버튼 */
-.popup-btn {
-  margin-top: 26px;
-  font-size: 12px;
-  border-radius: 999px;
-  border: 1px solid #111;
-  padding: 6px 18px;
-  background: none;
-  cursor: pointer;
-}
-.popup-btn:hover { background: rgba(0,0,0,0.05); }
-
-/* 당첨 상품 강조 */
-.highlight {
-  color: #5bb6f0;
-  font-weight: 600;
-  text-shadow: 0 0 6px rgba(91,182,240,0.25);
-}
-
-  .result-group {
-  margin: 6px 0;
-}
-
-</style>
-</head>
-
-<body>
-<a href="index.html" class="back">Back</a>
-
-<div class="logo">
-  <img src="https://buly.kr/FhPFVd6">
-</div>
-
-<div class="draw-area">
-  <div class="draw-trigger" id="drawBtn">
-  <img src="https://buly.kr/90cSIXz" alt="박스 이미지">
-
-  <!-- 스텝퍼 박스 안으로 이동 -->
-  <div class="draw-stepper">
-    <button class="step-btn left" onclick="changeCount(-1, event)">◀</button>
-    <input type="text" id="drawCount" value="1" readonly>
-    <button class="step-btn right" onclick="changeCount(1, event)">▶</button>
-  </div>
-</div>
-
-
-  <button class="action-btn" id="remainBtn">남은 수량 보기</button>
-  <div id="remainMain"></div>
-
-  <button class="action-btn" id="resetBtn">RESET</button>
-</div>
-
-<div class="popup" id="popup">
-  <div class="letter">
-    <div class="letter-visual-wrap">
-      <img class="letter-visual" src="https://buly.kr/G3ElTFD">
-
-      <!-- ✅ 결과 텍스트는 여기 -->
-      <div class="grade-wrap">
-        <div class="grade" id="result"></div>
-      </div>
-
-    </div>
-    <button class="popup-btn" onclick="closePopup()">OK</button>
-  </div>
-</div>
-
-
-<audio id="rustleSound" preload="auto">
-  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_0c9b0d66d8.mp3">
-</audio>
-
-<script>
-
-  
-const STORAGE_KEY = 'luckyDrawPool';
-
-/* 초기 풀 */
-function createInitialPool() {
-  return [
-    ...Array(3).fill('티셔츠'),
-    ...Array(5).fill('타월슬로건'),
-    ...Array(16).fill('pvc파우치'),
-    ...Array(36).fill('쿠션키링'),
-    ...Array(50).fill('핀뱃지'),
-    ...Array(50).fill('엽서세트'),
-    ...Array(150).fill('스티커')
-  ];
-}
-
-/* 풀 로드 */
-let prizePool = JSON.parse(localStorage.getItem(STORAGE_KEY));
-if (!prizePool) {
-  prizePool = createInitialPool();
-  shuffle(prizePool);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(prizePool));
-}
-
-function countRemain() {
-  const map = {};
-  prizePool.forEach(p => map[p] = (map[p] || 0) + 1);
-  return map;
-}
-
-const drawBtn = document.getElementById('drawBtn');
-const popup = document.getElementById('popup');
-const result = document.getElementById('result');
-const remainMain = document.getElementById('remainMain');
-const remainBtn = document.getElementById('remainBtn');
-const resetBtn = document.getElementById('resetBtn');
-const letter = document.querySelector('.letter');
-const sound = document.getElementById('rustleSound');
-const highlightItems = ['티셔츠','타월슬로건','pvc파우치'];
-
-/* 뽑기 */
-let canDraw = true; // 뽑기 가능 여부
-
-drawBtn.onclick = () => {
-  if (!canDraw) return; // 아직 5초 안됐으면 클릭 무시
-  canDraw = false;      // 클릭하면 바로 막기
-
-  sound.currentTime = 0;
-  sound.play();
-
-  drawBtn.classList.add('shake');
-  setTimeout(() => drawBtn.classList.remove('shake'), 450);
-
-  setTimeout(() => {
-    const drawCount = parseInt(document.getElementById('drawCount').value, 10) || 1;
-
-    if (prizePool.length === 0) {
-      result.textContent = 'ALL OUT';
-      popup.style.display = 'flex';
-      return;
-    }
-
-    if (drawCount > prizePool.length) {
-      alert(`남은 수량은 ${prizePool.length}개입니다.`);
-      canDraw = true; // 다시 뽑기 가능
-      return;
-    }
-
-    const drawn = [];
-    for (let i = 0; i < drawCount; i++) {
-      drawn.push(prizePool.pop());
-    }
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(prizePool));
-
-    letter.className = `letter ${drawn[0]}`;
-
-    // 당첨상품 강조
-    const highlightItems = ['티셔츠', '타월슬로건', 'pvc파우치'];
-
-    if (drawn.length >= 6) {
-  const half = Math.ceil(drawn.length / 2);
-
-  const makeList = arr =>
-    arr.map(p =>
-      highlightItems.includes(p)
-        ? `<span class="highlight">${p}</span>`
-        : p
-    ).join('<br>');
-
-  result.innerHTML = `
-    <div class="result-group">
-      ${makeList(drawn.slice(0, half))}
-    </div>
-    <div class="result-group">
-      ${makeList(drawn.slice(half))}
-    </div>
-  `;
-}
-
-    else {
-      result.innerHTML = drawn
-        .map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p)
-        .join('<br>');
-    }
-
-    popup.style.display = 'flex';
-
-    // ✅ 5초 후 다시 뽑기 가능
-    setTimeout(() => {
-      canDraw = true;
-    }, 5000);
-
-  }, 350);
-};
-
-
-function closePopup(){popup.style.display='none'; updateRemain(); remainMain.style.display='none';}
-
-remainBtn.onclick = ()=>{
-  updateRemain();
-  remainMain.style.display = remainMain.style.display==='none'?'block':'none';
-};
-
-function shuffle(array){for(let i=array.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[array[i],array[j]]=[array[j],array[i]];} return array;}
-
-resetBtn.onclick = ()=>{
-  if(confirm('정말 전체 수량을 초기화할까요?')){localStorage.removeItem(STORAGE_KEY); location.reload();}
-};
-
-function updateRemain(){
-  const counts=countRemain();
-  remainMain.textContent=Object.entries(counts).map(([k,v])=>`${k} : ${v}`).join('\n');
-}
-
-/* 스텝퍼 */
-function changeCount(diff,e){
-  e.stopPropagation();
-  const input=document.getElementById('drawCount');
-  let value=parseInt(input.value,10)||1;
-  value+=diff; if(value<1)value=1;
-  input.value=value;
-}
-
-
-</script>
-</body>
-</html>
+  40%
