@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Lucky Draw</title>
 
 <style>
@@ -19,6 +17,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  -webkit-tap-highlight-color: transparent; /* 모바일 터치 강조 제거 */
 }
 
 /* ---------------- fixed UI ---------------- */
@@ -53,15 +52,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 .draw-trigger {
   cursor: pointer;
+  position: relative;
 }
 .draw-trigger img {
   width: 400px;
 }
-
 
 /* 박스 흔들림 */
 .draw-trigger.shake img {
@@ -76,6 +76,48 @@ body {
   100% { transform: rotate(0); }
 }
 
+/* ---------------- draw count stepper ---------------- */
+.draw-stepper {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 2px solid #92d2ff;
+  border-radius: 12px;
+  padding: 6px 10px;
+  gap: 10px;
+}
+
+.draw-stepper input {
+  width: 60px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #111;
+}
+
+/* 화살표 버튼 */
+.step-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #92d2ff;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.step-btn:hover { opacity: 0.85; }
+
 /* 공통 버튼 스타일 (남은 수량 / RESET) */
 .action-btn {
   margin-top: 18px;
@@ -89,10 +131,7 @@ body {
   background: none;
   cursor: pointer;
 }
-.action-btn:hover {
-  opacity: 1;
-  background: rgba(0,0,0,0.05);
-}
+.action-btn:hover { opacity: 1; background: rgba(0,0,0,0.05); }
 
 /* 남은 수량 텍스트 */
 #remainMain {
@@ -167,73 +206,18 @@ body {
   background: none;
   cursor: pointer;
 }
-.popup-btn:hover {
-  background: rgba(0,0,0,0.05);
-}
+.popup-btn:hover { background: rgba(0,0,0,0.05); }
 
-  /* ---------------- draw count stepper ---------------- */
-.draw-stepper {
-  margin-top: 16px; /* drawBtn 아래로 내려오기 */
-  width: 30%;
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border: 2px solid #92d2ff;
-  border-radius: 12px;
-  padding: 10px 14px;
-  gap: 14px;
-}
-
-}
-
-.draw-stepper input {
-  width: 70px;
-  text-align: center;
-  font-size: 26px;
-  font-weight: 600;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: #111;
-}
-
-/* 화살표 버튼 */
-.step-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: none;
-  background: #92d2ff; /* 하늘색 동그라미 */
-  color: #fff;         /* 하얀 화살표 */
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.step-btn:hover {
-  opacity: 0.85;
-}
-
-  
 /* 당첨 상품 강조 */
-.highlight {
-  color: #5bb6f0; /* 배경보다 조금 더 진한 하늘색 */
-  font-weight: 600;
-}
-  
 .highlight {
   color: #5bb6f0;
   font-weight: 600;
   text-shadow: 0 0 6px rgba(91,182,240,0.25);
 }
-
 </style>
 </head>
 
 <body>
-
 <a href="index.html" class="back">Back</a>
 
 <div class="logo">
@@ -243,24 +227,21 @@ body {
 <div class="draw-area">
   <div class="draw-trigger" id="drawBtn">
     <img src="https://buly.kr/90cSIXz">
-  </div>
+
+    <!-- 스텝퍼 박스 안 -->
     <div class="draw-stepper">
-  <button class="step-btn left" onclick="changeCount(-1, event)">◀</button>
-  <input type="text" id="drawCount" value="1" readonly>
-  <button class="step-btn right" onclick="changeCount(1, event)">▶</button>
-</div>
-
+      <button class="step-btn left" onclick="changeCount(-1,event)">◀</button>
+      <input type="text" id="drawCount" value="1" readonly>
+      <button class="step-btn right" onclick="changeCount(1,event)">▶</button>
+    </div>
   </div>
-
 
   <button class="action-btn" id="remainBtn">남은 수량 보기</button>
   <div id="remainMain"></div>
 
-  <!-- 관리자 RESET -->
   <button class="action-btn" id="resetBtn">RESET</button>
 </div>
 
-<!-- popup -->
 <div class="popup" id="popup">
   <div class="letter">
     <div class="letter-visual-wrap">
@@ -299,7 +280,6 @@ if (!prizePool) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(prizePool));
 }
 
-/* 남은 수량 계산 */
 function countRemain() {
   const map = {};
   prizePool.forEach(p => map[p] = (map[p] || 0) + 1);
@@ -314,117 +294,68 @@ const remainBtn = document.getElementById('remainBtn');
 const resetBtn = document.getElementById('resetBtn');
 const letter = document.querySelector('.letter');
 const sound = document.getElementById('rustleSound');
+const highlightItems = ['티셔츠','타월슬로건','pvc파우치'];
 
+/* 뽑기 */
 drawBtn.onclick = () => {
   sound.currentTime = 0;
   sound.play();
-
   drawBtn.classList.add('shake');
   setTimeout(() => drawBtn.classList.remove('shake'), 450);
 
   setTimeout(() => {
-    const drawCount =
-      parseInt(document.getElementById('drawCount').value, 10) || 1;
-
-    if (prizePool.length === 0) {
-      result.textContent = 'ALL OUT';
-      popup.style.display = 'flex';
-      return;
-    }
-
-    if (drawCount > prizePool.length) {
-      alert(`남은 수량은 ${prizePool.length}개입니다.`);
-      return;
-    }
+    const drawCount = parseInt(document.getElementById('drawCount').value,10) || 1;
+    if (prizePool.length===0){result.textContent='ALL OUT'; popup.style.display='flex'; return;}
+    if(drawCount>prizePool.length){alert(`남은 수량은 ${prizePool.length}개입니다.`); return;}
 
     const drawn = [];
-
-    for (let i = 0; i < drawCount; i++) {
-      drawn.push(prizePool.pop());
-    }
-
+    for(let i=0;i<drawCount;i++){drawn.push(prizePool.pop());}
     localStorage.setItem(STORAGE_KEY, JSON.stringify(prizePool));
 
-    // 첫 번째 상품 기준으로 배경 컬러 설정
     letter.className = `letter ${drawn[0]}`;
 
-    // ✅ 한 번에 결과 표시
-    result.innerHTML = drawn.join('<br>');
+    // 6개 이상이면 두 문단
+    if(drawn.length>=6){
+      const half=Math.ceil(drawn.length/2);
+      const first=drawn.slice(0,half);
+      const second=drawn.slice(half);
+      result.innerHTML = first.map(p=>highlightItems.includes(p)?`<span class="highlight">${p}</span>`:p).join('<br>')+
+                         '<br><br>'+
+                         second.map(p=>highlightItems.includes(p)?`<span class="highlight">${p}</span>`:p).join('<br>');
+    }else{
+      result.innerHTML = drawn.map(p=>highlightItems.includes(p)?`<span class="highlight">${p}</span>`:p).join('<br>');
+    }
 
-
-    popup.style.display = 'flex';
+    popup.style.display='flex';
   }, 350);
 };
 
+function closePopup(){popup.style.display='none'; updateRemain(); remainMain.style.display='none';}
 
-
-function closePopup() {
-  popup.style.display = 'none';
+remainBtn.onclick = ()=>{
   updateRemain();
-  remainMain.style.display = 'none';
-}
-
-remainBtn.onclick = () => {
-  updateRemain();
-
-  remainMain.style.display =
-    remainMain.style.display === 'none' ? 'block' : 'none';
+  remainMain.style.display = remainMain.style.display==='none'?'block':'none';
 };
 
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
+function shuffle(array){for(let i=array.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[array[i],array[j]]=[array[j],array[i]];} return array;}
 
-
-/* ✅ 관리자 RESET (정상 작동) */
-resetBtn.onclick = () => {
-  if (confirm('정말 전체 수량을 초기화할까요?')) {
-    localStorage.removeItem(STORAGE_KEY);
-    location.reload();
-  }
+resetBtn.onclick = ()=>{
+  if(confirm('정말 전체 수량을 초기화할까요?')){localStorage.removeItem(STORAGE_KEY); location.reload();}
 };
 
-function updateRemain() {
-  const counts = countRemain();
-  remainMain.textContent = Object.entries(counts)
-    .map(([k, v]) => `${k} : ${v}`)
-    .join('\n');
+function updateRemain(){
+  const counts=countRemain();
+  remainMain.textContent=Object.entries(counts).map(([k,v])=>`${k} : ${v}`).join('\n');
 }
 
-  function changeCount(diff,e) {
-      e.stopPropagation(); // ✅ 뽑기 이벤트 차단
-    
-  const input = document.getElementById('drawCount');
-  let value = parseInt(input.value, 10) || 1;
-  value += diff;
-  if (value < 1) value = 1;
-  input.value = value;
+/* 스텝퍼 */
+function changeCount(diff,e){
+  e.stopPropagation();
+  const input=document.getElementById('drawCount');
+  let value=parseInt(input.value,10)||1;
+  value+=diff; if(value<1)value=1;
+  input.value=value;
 }
-
-  const highlightItems = ['티셔츠', '타월슬로건', 'pvc파우치'];
-
-if (drawn.length >= 6) {
-  const half = Math.ceil(drawn.length / 2);
-  const firstHalf = drawn.slice(0, half);
-  const secondHalf = drawn.slice(half);
-
-  result.innerHTML =
-    firstHalf.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>') +
-    '<br><br>' +
-    secondHalf.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>');
-} else {
-  result.innerHTML = drawn
-    .map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p)
-    .join('<br>');
-}
-
-  .join('<br>');
-
 </script>
-
 </body>
 </html>
