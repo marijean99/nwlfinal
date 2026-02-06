@@ -408,13 +408,21 @@ function updateRemain() {
 
   const highlightItems = ['티셔츠', '타월슬로건', 'pvc파우치'];
 
-result.innerHTML = drawn
-  .map(p => {
-    if (highlightItems.includes(p)) {
-      return `<span class="highlight">${p}</span>`;
-    }
-    return p;
-  })
+if (drawn.length >= 6) {
+  const half = Math.ceil(drawn.length / 2);
+  const firstHalf = drawn.slice(0, half);
+  const secondHalf = drawn.slice(half);
+
+  result.innerHTML =
+    firstHalf.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>') +
+    '<br><br>' +
+    secondHalf.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>');
+} else {
+  result.innerHTML = drawn
+    .map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p)
+    .join('<br>');
+}
+
   .join('<br>');
 
 </script>
