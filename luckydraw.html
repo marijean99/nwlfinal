@@ -223,6 +223,7 @@ function createInitialPool() {
 let prizePool = JSON.parse(localStorage.getItem(STORAGE_KEY));
 if (!prizePool) {
   prizePool = createInitialPool();
+  shuffle(prizePool);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(prizePool));
 }
 
@@ -275,7 +276,13 @@ remainBtn.onclick = () => {
     remainMain.style.display === 'none' ? 'block' : 'none';
 };
 
-
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
 
 /* ✅ 관리자 RESET (정상 작동) */
