@@ -22,6 +22,12 @@ body {
   -webkit-tap-highlight-color: transparent; /* 모바일 터치 강조 제거 */
 }
 
+/* 모바일 더블탭 확대 방지 */
+* {
+  touch-action: manipulation;
+}
+
+  
 /* ---------------- fixed UI ---------------- */
 .logo {
   position: fixed;
@@ -266,6 +272,8 @@ body {
 </audio>
 
 <script>
+
+  
 const STORAGE_KEY = 'luckyDrawPool';
 
 /* 초기 풀 */
@@ -397,6 +405,18 @@ function changeCount(diff,e){
   value+=diff; if(value<1)value=1;
   input.value=value;
 }
+
+  <script>
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function (e) {
+  const now = Date.now();
+  if (now - lastTouchEnd <= 300) {
+    e.preventDefault();
+  }
+  lastTouchEnd = now;
+}, { passive: false });
+</script>
+
 </script>
 </body>
 </html>
