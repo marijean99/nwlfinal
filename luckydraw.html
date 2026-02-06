@@ -106,19 +106,6 @@ body {
   cursor: pointer;
 }
 
-/* ---------------- buttons ---------------- */
-.action-btn {
-  margin-top: 18px;
-  font-size: 13px;
-  color: #92d2ff;
-  border: 1px solid #92d2ff;
-  border-radius: 999px;
-  padding: 7px 18px;
-  background: none;
-  cursor: pointer;
-  opacity: .75;
-}
-
 /* ---------------- popup ---------------- */
 .popup {
   position: fixed;
@@ -162,7 +149,7 @@ body {
   width: 100%;
 }
 
-/* ---- result text ---- */
+/* ---------------- result text ---------------- */
 .grade-wrap {
   position: absolute;
   top: 20%;
@@ -176,10 +163,17 @@ body {
   font-size: 13px;
   font-weight: 600;
   line-height: 1.6;
+  text-align: center;
+}
+
+.grade.split {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
 }
 
 .result-group {
-  margin: 6px 0;
+  width: 50%;
 }
 
 .highlight {
@@ -217,10 +211,6 @@ body {
       <button class="step-btn" onclick="changeCount(1,event)">▶</button>
     </div>
   </div>
-
-  <button class="action-btn" id="remainBtn">남은 수량 보기</button>
-  <div id="remainMain"></div>
-  <button class="action-btn" id="resetBtn">RESET</button>
 </div>
 
 <div class="popup" id="popup">
@@ -295,12 +285,14 @@ drawBtn.onclick = () => {
       ).join('<br>');
 
     if(drawn.length > 6){
-      const half = Math.ceil(drawn.length/2);
+      result.classList.add('split');
+      const half = Math.ceil(drawn.length / 2);
       result.innerHTML = `
-        <div class="result-group">${makeList(drawn.slice(0,half))}</div>
+        <div class="result-group">${makeList(drawn.slice(0, half))}</div>
         <div class="result-group">${makeList(drawn.slice(half))}</div>
       `;
     } else {
+      result.classList.remove('split');
       result.innerHTML = makeList(drawn);
     }
 
@@ -309,7 +301,9 @@ drawBtn.onclick = () => {
   },350);
 };
 
-function closePopup(){ popup.style.display='none'; }
+function closePopup(){
+  popup.style.display = 'none';
+}
 
 function shuffle(a){
   for(let i=a.length-1;i>0;i--){
