@@ -57,11 +57,16 @@ body {
 }
 
 .draw-trigger {
-  cursor: pointer;
   position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 .draw-trigger img {
-  width: 70%;
+  width: 400px;
+  margin-bottom: 20px; /* 박스 아래 여백 */
 }
 
 /* 박스 흔들림 */
@@ -79,24 +84,19 @@ body {
 
 /* ---------------- draw count stepper ---------------- */
 .draw-stepper {
-  margin-top: 20px;
-  position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   align-items: center;
   background: #fff;
   border: 2px solid #92d2ff;
   border-radius: 12px;
-  padding: 6px 10px;
-  gap: 10px;
+  padding: 10px 14px;
+  gap: 14px;
 }
 
 .draw-stepper input {
-  width: 60px;
+  width: 70px;
   text-align: center;
-  font-size: 18px;
+  font-size: 26px;
   font-weight: 600;
   border: none;
   outline: none;
@@ -106,8 +106,8 @@ body {
 
 /* 화살표 버튼 */
 .step-btn {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   border: none;
   background: #92d2ff;
@@ -118,8 +118,11 @@ body {
   align-items: center;
   justify-content: center;
 }
-.step-btn:hover { opacity: 0.85; }
 
+.step-btn:hover {
+  opacity: 0.85;
+}
+  
 /* 공통 버튼 스타일 (남은 수량 / RESET) */
 .action-btn {
   margin-top: 18px;
@@ -228,15 +231,16 @@ body {
 
 <div class="draw-area">
   <div class="draw-trigger" id="drawBtn">
-    <img src="https://buly.kr/90cSIXz">
+  <img src="https://buly.kr/90cSIXz" alt="박스 이미지">
 
-    <!-- 스텝퍼 박스 안 -->
-    <div class="draw-stepper">
-      <button class="step-btn left" onclick="changeCount(-1,event)">◀</button>
-      <input type="text" id="drawCount" value="1" readonly>
-      <button class="step-btn right" onclick="changeCount(1,event)">▶</button>
-    </div>
+  <!-- 스텝퍼 박스 안으로 이동 -->
+  <div class="draw-stepper">
+    <button class="step-btn left" onclick="changeCount(-1, event)">◀</button>
+    <input type="text" id="drawCount" value="1" readonly>
+    <button class="step-btn right" onclick="changeCount(1, event)">▶</button>
   </div>
+</div>
+
 
   <button class="action-btn" id="remainBtn">남은 수량 보기</button>
   <div id="remainMain"></div>
