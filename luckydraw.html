@@ -60,6 +60,22 @@ body {
   width: 400px;
 }
 
+
+  <input
+  type="number"
+  id="drawCount"
+  min="1"
+  value="1"
+  style="
+    margin-top: 12px;
+    width: 120px;
+    text-align: center;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #111;
+  "
+>
+
 /* 박스 흔들림 */
 .draw-trigger.shake img {
   animation: boxShake .45s ease;
@@ -150,6 +166,8 @@ body {
   transform: translate(-50%, -50%);
   font-size: 15px;
   font-weight: 600;
+  line-height: 1.6;
+  white-space: normal;
 }
 
 /* 팝업 버튼 */
@@ -251,17 +269,41 @@ drawBtn.onclick = () => {
   setTimeout(() => drawBtn.classList.remove('shake'), 450);
 
   setTimeout(() => {
+    const drawCount =
+      parseInt(document.getElementById('drawCount').value, 10) || 1;
+
     if (prizePool.length === 0) {
       result.textContent = 'ALL OUT';
-    } else {
-      const prize = prizePool.pop();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(prizePool));
-      letter.className = `letter ${prize}`;
-      result.textContent = `${prize} 당첨!`;
+      popup.style.display = 'flex';
+      return;
     }
+
+    if (drawCount > prizePool.length) {
+      alert(`남은 수량은 ${prizePool.length}개입니다.`);
+      return;
+    }
+
+    const drawn = [];
+
+    for (let i = 0; i < drawCount; i++) {
+      drawn.push(prizePool.pop());
+    }
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(prizePool));
+
+    // 첫 번째 상품 기준으로 배경 컬러 설정
+    letter.className = `letter ${drawn[0]}`;
+
+    // ✅ 한 번에 결과 표시
+    result.innerHTML = drawn
+      .map((p, i) => `${i + 1}. ${p}`)
+      .join('<br>');
+
     popup.style.display = 'flex';
   }, 350);
 };
+
+
 
 function closePopup() {
   popup.style.display = 'none';
