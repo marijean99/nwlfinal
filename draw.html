@@ -16,22 +16,31 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
+
+    .text-wrap {
+      padding-top:20vh ;
+
+    }
     .page-wrap {
       text-align: center;
       max-width: 420px;
       padding: 20px;
+      padding-top: 200px;
     }
 
     .visual {
-      margin-bottom: 10px;
+      margin-bottom: 24px;
+      
     }
 
     .visual img {
       width: 300px;
       animation: float 4s ease-in-out infinite;
+      
     }
 
     @keyframes float {
@@ -48,19 +57,24 @@
       margin-bottom: 100px;
     }
 
-     .Title {
+    .Title {
+      position: fixed;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+
       font-family: futura;
       font-size: clamp(20px, 3.5vw, 25px);
       line-height: 1.7;
       opacity: 0.85;
-      margin-top: -100px;
-      margin-bottom: 200px;      
+      margin-bottom:200;
+      z-index: 5; 
     }
 
     .logo {
        position: fixed;
-       top: 30px;
-      right: 30px;
+       top: 42px;
+      right: 45px;
       z-index: 10;
       opacity: 0.9;
     }
@@ -72,7 +86,7 @@
 
     .back {
       position: fixed;
-      top: 30px;
+      top: 38px;
       left: 13%;
       transform: translateX(-50%);
       font-size: 12px;
@@ -83,7 +97,6 @@
       border-radius: 999px;
       padding: 6px 14px;
     }
-    
 
     .back:hover {
       opacity: 1;
@@ -96,7 +109,7 @@
 
   <div class="page-wrap">
    <p class="Title">
-        (so)lucky draw!
+        Drink Gift!
     </p>
 
 
