@@ -304,43 +304,70 @@ const sound = document.getElementById('rustleSound');
 const highlightItems = ['티셔츠','타월슬로건','pvc파우치'];
 
 /* 뽑기 */
+let canDraw = true; // 뽑기 가능 여부
+
 drawBtn.onclick = () => {
+  if (!canDraw) return; // 아직 5초 안됐으면 클릭 무시
+  canDraw = false;      // 클릭하면 바로 막기
+
   sound.currentTime = 0;
   sound.play();
+
   drawBtn.classList.add('shake');
   setTimeout(() => drawBtn.classList.remove('shake'), 450);
 
   setTimeout(() => {
-    const drawCount = parseInt(document.getElementById('drawCount').value,10) || 1;
-    if (prizePool.length===0){result.textContent='ALL OUT'; popup.style.display='flex'; return;}
-    if(drawCount>prizePool.length){alert(`남은 수량은 ${prizePool.length}개입니다.`); return;}
+    const drawCount = parseInt(document.getElementById('drawCount').value, 10) || 1;
+
+    if (prizePool.length === 0) {
+      result.textContent = 'ALL OUT';
+      popup.style.display = 'flex';
+      return;
+    }
+
+    if (drawCount > prizePool.length) {
+      alert(`남은 수량은 ${prizePool.length}개입니다.`);
+      canDraw = true; // 다시 뽑기 가능
+      return;
+    }
 
     const drawn = [];
-    for(let i=0;i<drawCount;i++){drawn.push(prizePool.pop());}
+    for (let i = 0; i < drawCount; i++) {
+      drawn.push(prizePool.pop());
+    }
+
     localStorage.setItem(STORAGE_KEY, JSON.stringify(prizePool));
 
     letter.className = `letter ${drawn[0]}`;
 
-    // 6개 이상이면 가로 두 컬럼
-  if(drawn.length >= 6){
-  const half = Math.ceil(drawn.length / 2);
-  const first = drawn.slice(0, half);
-  const second = drawn.slice(half);
+    // 당첨상품 강조
+    const highlightItems = ['티셔츠', '타월슬로건', 'pvc파우치'];
 
-  result.innerHTML = `
-    <div style="display:flex; gap:20px; justify-content:center;">
-      <div>${first.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>')}</div>
-      <div>${second.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>')}</div>
-    </div>
-  `;
-}else{
-  result.innerHTML = drawn.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>');
-}
+    if (drawn.length >= 6) {
+      const half = Math.ceil(drawn.length / 2);
+      const firstHalf = drawn.slice(0, half);
+      const secondHalf = drawn.slice(half);
 
+      result.innerHTML =
+        firstHalf.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>') +
+        '<br><br>' +
+        secondHalf.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>');
+    } else {
+      result.innerHTML = drawn
+        .map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p)
+        .join('<br>');
+    }
 
-    popup.style.display='flex';
+    popup.style.display = 'flex';
+
+    // ✅ 5초 후 다시 뽑기 가능
+    setTimeout(() => {
+      canDraw = true;
+    }, 5000);
+
   }, 350);
 };
+
 
 function closePopup(){popup.style.display='none'; updateRemain(); remainMain.style.display='none';}
 
