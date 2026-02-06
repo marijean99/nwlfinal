@@ -219,7 +219,6 @@ body {
 <audio id="rustleSound" preload="auto">
   <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_0c9b0d66d8.mp3" type="audio/mpeg">
 </audio>
-
   
 <a href="index.html" class="back">Back</a>
 
@@ -255,10 +254,6 @@ body {
     <button class="popup-btn" onclick="closePopup()">OK</button>
   </div>
 </div>
-
-<audio id="rustleSound" preload="auto">
-  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_0c9b0d66d8.mp3">
-</audio>
 
 <script>
 const STORAGE_KEY = 'luckyDrawPool';
@@ -298,8 +293,11 @@ drawBtn.onclick = () => {
   if(!canDraw) return;
   canDraw = false;
 
+  sound.pause();
   sound.currentTime = 0;
-  sound.play();
+  sound.volume = 1;
+  sound.play().catch(()=>{});
+
 
   drawBtn.classList.add('shake');
   setTimeout(()=>drawBtn.classList.remove('shake'),450);
