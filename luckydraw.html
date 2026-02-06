@@ -199,6 +199,7 @@ body {
 
 .grade {
   position: absolute;
+  text-align: center;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -352,15 +353,26 @@ drawBtn.onclick = () => {
     const highlightItems = ['티셔츠', '타월슬로건', 'pvc파우치'];
 
     if (drawn.length >= 6) {
-      const half = Math.ceil(drawn.length / 2);
-      const firstHalf = drawn.slice(0, half);
-      const secondHalf = drawn.slice(half);
+  const half = Math.ceil(drawn.length / 2);
 
-      result.innerHTML =
-        firstHalf.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>') +
-        '<br><br>' +
-        secondHalf.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>');
-    } else {
+  const makeList = arr =>
+    arr.map(p =>
+      highlightItems.includes(p)
+        ? `<span class="highlight">${p}</span>`
+        : p
+    ).join('<br>');
+
+  result.innerHTML = `
+    <div class="result-group">
+      ${makeList(drawn.slice(0, half))}
+    </div>
+    <div class="result-group">
+      ${makeList(drawn.slice(half))}
+    </div>
+  `;
+}
+
+    else {
       result.innerHTML = drawn
         .map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p)
         .join('<br>');
