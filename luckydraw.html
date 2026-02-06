@@ -207,6 +207,18 @@ body {
 .step-btn:hover {
   opacity: 0.85;
 }
+  
+/* 당첨 상품 강조 */
+.highlight {
+  color: #5bb6f0; /* 배경보다 조금 더 진한 하늘색 */
+  font-weight: 600;
+}
+  
+.highlight {
+  color: #5bb6f0;
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(91,182,240,0.25);
+}
 
 </style>
 </head>
@@ -392,6 +404,17 @@ function updateRemain() {
   if (value < 1) value = 1;
   input.value = value;
 }
+
+  const highlightItems = ['티셔츠', '타월슬로건', 'pvc파우치'];
+
+result.innerHTML = drawn
+  .map(p => {
+    if (highlightItems.includes(p)) {
+      return `<span class="highlight">${p}</span>`;
+    }
+    return p;
+  })
+  .join('<br>');
 
 </script>
 
