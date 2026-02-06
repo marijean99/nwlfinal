@@ -171,32 +171,35 @@ body {
 
   /* ---------------- draw count stepper ---------------- */
 .draw-stepper {
-  margin-top: 14px;
+  margin-top: 16px;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  background: #fff;
+  border: 2px solid #92d2ff; /* 하늘색 테두리 */
+  border-radius: 12px;
+  padding: 10px 14px;
+  gap: 14px;
 }
 
 .draw-stepper input {
-  width: 110px;
-  height: 54px;
+  width: 70px;
   text-align: center;
   font-size: 26px;
   font-weight: 600;
-  border-radius: 10px;
-  border: 2px solid #92d2ff;   /* 하늘색 테두리 */
-  background: #fff;            /* 하얀 바탕 */
+  border: none;
+  outline: none;
+  background: transparent;
   color: #111;
-  margin: 6px 0;
 }
 
+/* 화살표 버튼 */
 .step-btn {
   width: 34px;
   height: 34px;
   border-radius: 50%;
   border: none;
-  background: #92d2ff;         /* 하늘색 동그라미 */
-  color: #fff;                 /* 하얀 화살표 */
+  background: #92d2ff; /* 하늘색 동그라미 */
+  color: #fff;         /* 하얀 화살표 */
   font-size: 14px;
   cursor: pointer;
   display: flex;
@@ -207,6 +210,7 @@ body {
 .step-btn:hover {
   opacity: 0.85;
 }
+
   
 /* 당첨 상품 강조 */
 .highlight {
@@ -235,26 +239,16 @@ body {
   <div class="draw-trigger" id="drawBtn">
     <img src="https://buly.kr/90cSIXz">
     <div class="draw-stepper">
-  <button class="step-btn up" onclick="changeCount(1)">▲</button>
+  <button class="step-btn left" onclick="changeCount(-1, event)">◀</button>
+
   <input type="text" id="drawCount" value="1" readonly>
-  <button class="step-btn down" onclick="changeCount(-1)">▼</button>
+
+  <button class="step-btn right" onclick="changeCount(1, event)">▶</button>
 </div>
 
   </div>
 
-  <input
-  type="number"
-  min="1"
-  value="1"
-  style="
-    margin-top: 12px;
-    width: 120px;
-    text-align: center;
-    padding: 6px;
-    border-radius: 6px;
-    border: 1px solid #111;
-  "
->
+
   <button class="action-btn" id="remainBtn">남은 수량 보기</button>
   <div id="remainMain"></div>
 
@@ -397,7 +391,9 @@ function updateRemain() {
     .join('\n');
 }
 
-  function changeCount(diff) {
+  function changeCount(diff,e) {
+      e.stopPropagation(); // ✅ 뽑기 이벤트 차단
+    
   const input = document.getElementById('drawCount');
   let value = parseInt(input.value, 10) || 1;
   value += diff;
