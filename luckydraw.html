@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Lucky Draw</title>
 
 <style>
@@ -60,7 +61,7 @@ body {
   position: relative;
 }
 .draw-trigger img {
-  width: 400px;
+  width: 70%;
 }
 
 /* 박스 흔들림 */
@@ -79,7 +80,7 @@ body {
 /* ---------------- draw count stepper ---------------- */
 .draw-stepper {
   position: absolute;
-  bottom: 16px;
+  bottom: -16px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -314,17 +315,22 @@ drawBtn.onclick = () => {
 
     letter.className = `letter ${drawn[0]}`;
 
-    // 6개 이상이면 두 문단
-    if(drawn.length>=6){
-      const half=Math.ceil(drawn.length/2);
-      const first=drawn.slice(0,half);
-      const second=drawn.slice(half);
-      result.innerHTML = first.map(p=>highlightItems.includes(p)?`<span class="highlight">${p}</span>`:p).join('<br>')+
-                         '<br><br>'+
-                         second.map(p=>highlightItems.includes(p)?`<span class="highlight">${p}</span>`:p).join('<br>');
-    }else{
-      result.innerHTML = drawn.map(p=>highlightItems.includes(p)?`<span class="highlight">${p}</span>`:p).join('<br>');
-    }
+    // 6개 이상이면 가로 두 컬럼
+  if(drawn.length >= 6){
+  const half = Math.ceil(drawn.length / 2);
+  const first = drawn.slice(0, half);
+  const second = drawn.slice(half);
+
+  result.innerHTML = `
+    <div style="display:flex; gap:20px; justify-content:center;">
+      <div>${first.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>')}</div>
+      <div>${second.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>')}</div>
+    </div>
+  `;
+}else{
+  result.innerHTML = drawn.map(p => highlightItems.includes(p) ? `<span class="highlight">${p}</span>` : p).join('<br>');
+}
+
 
     popup.style.display='flex';
   }, 350);
