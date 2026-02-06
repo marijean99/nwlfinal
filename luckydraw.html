@@ -197,17 +197,17 @@ body {
 }
 .letter-visual { width: 100%; }
 
-.grade {
+
+  .grade-wrap {
   position: absolute;
-  text-align: center;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.6;
-  white-space: normal;
+  width: 100%;
 }
+  .grade {
+  position: relative;
+  }
 
 /* 팝업 버튼 */
 .popup-btn {
@@ -269,6 +269,10 @@ body {
     </div>
     <button class="popup-btn" onclick="closePopup()">OK</button>
   </div>
+  <div class="grade-wrap">
+  <div class="grade" id="result"></div>
+</div>
+
 </div>
 
 <audio id="rustleSound" preload="auto">
