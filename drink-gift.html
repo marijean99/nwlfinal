@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drink Gift | Owl.net</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #c2dff5;
+      font-family: helvetica, pretendard;
+      color: #111;
+      overflow-x: hidden;
+    }
+
+    /* ---------------- fixed UI ---------------- */
+
+    .logo {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      z-index: 10;
+    }
+
+    .logo img {
+      width: 80px;
+    }
+
+    .back {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      font-size: 12px;
+      text-decoration: none;
+      color: inherit;
+      opacity: 0.7;
+      border: 1px solid #111;
+      border-radius: 999px;
+      padding: 6px 14px;
+      z-index: 10;
+    }
+
+    .back:hover {
+      opacity: 1;
+      background: rgba(0,0,0,0.05);
+    }
+
+    /* ---------------- page content ---------------- */
+
+    .page-wrap {
+      max-width: 420px;
+      margin: 0 auto;
+      padding-top: 120px;
+      text-align: center;
+    }
+
+    .Title {
+      font-family: futura;
+      font-size: clamp(20px, 3.5vw, 25px);
+      margin: 0 0 40px;
+      opacity: 0.85;
+    }
+
+    .visual {
+    margin-top: 150px;
+    }
+
+    .visual img {
+    width: 250px;
+    animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+    0%   { transform: translateY(-10px); }
+    50%  { transform: translateY(-28px); }
+    100% { transform: translateY(-10px); }
+    }
+
+    .description {
+      font-family: futura;
+      font-size: clamp(10px, 3.5vw, 15px);
+      line-height: 1.7;
+      opacity: 0.85;
+      margin-top: 20px;
+    }
+
+    /* ---------------- floating drink buttons ---------------- */
+
+    .drink-wrap {
+  position: fixed;
+  display: flex;
+  flex-direction: column;   /* ⬇️ 세로 정렬 */
+  align-items: center;
+  cursor: pointer;
+  z-index: 5;
+  animation: float 4s ease-in-out infinite;
+}
+
+.drink-left {
+  top: 90px;
+  left: 40px;
+}
+
+.drink-right {
+  bottom: 100px;
+  right: 80px;
+  animation-delay: 1.5s;
+}
+
+.drink {
+  width: 90px;
+  display: block;
+}
+
+.drink-label {
+  margin-top: 6px;
+  font-family: futura;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  opacity: 0.8;
+  pointer-events: none; /* 클릭은 이미지/랩퍼만 */
+}
+
+    /* ---------------- gift layer ---------------- */
+
+    #gift-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .gift {
+      position: absolute;
+      width: 100px;
+      opacity: 0;
+      animation: pop 0.5s cubic-bezier(.22,1.15,.35,1) forwards;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(0.6) translateY(10px);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    } 
+
+/* ---------------- hint ---------------- */
+
+    .hint {
+  position: fixed;
+  left: 50%;
+  bottom: 60px;
+  transform: translateX(-50%);
+  font-family: futura;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  animation: hintFade 1.2s ease forwards;
+  z-index: 6;
+}
+
+@keyframes hintFade {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px);
+  }
+  30% {
+    opacity: 0.85;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+  <!-- fixed UI -->
+  <a href="index.html" class="back">Back</a>
+
+  <div class="logo">
+    <img src="https://buly.kr/FhPFVd6" alt="Owl.net Logo">
+  </div>
+
+  <!-- floating drink buttons -->
+   <div class="drink-wrap drink-left">
+  <img class="drink" src="https://buly.kr/EduhchC" alt="Drink Left">
+   <span class="drink-label">click me!</span>
+   </div>
+
+  <div class="drink-wrap drink-right">
+  <img class="drink" src="https://buly.kr/EzkDaKy" alt="Drink Right">
+   <span class="drink-label">click me!</span>
+  </div>
+
+  <!-- gift background -->
+  <div id="gift-layer"></div>
+
+  <!-- page content -->
+  <div class="page-wrap">
+    <p class="Title">Drink Gift!</p>
+
+    <div class="visual">
+      <img src="https://buly.kr/G3ElTFD" alt="Drink Gift">
+    </div>
+
+  </div>
+
+  <!-- ---------------- JS ---------------- -->
+  <script>
+    let isFinished = false;
+    const giftPools = {
+      left: [
+        'https://buly.kr/G3ElTFD',
+        'https://buly.kr/G3ElTFD',
+        'https://buly.kr/G3ElTFD'
+      ],
+      right: [
+        'https://buly.kr/G3ElTFD',
+        'https://buly.kr/G3ElTFD',
+        'https://buly.kr/G3ElTFD'
+      ]
+    };
+
+    let currentSide = null;
+    let remainingGifts = [];
+
+    function clearGifts() {
+      document.getElementById('gift-layer').innerHTML = '';
+    }
+
+   function spawnGift(side) {
+// 🔄 끝난 상태에서 다시 누르면 초기화
+  if (isFinished && currentSide === side) {
+    clearGifts();
+    remainingGifts = [...giftPools[side]];
+    isFinished = false;
+    return;
+  }
+
+  // 다른 버튼을 누른 경우 → 전환
+  if (currentSide !== side) {
+    currentSide = side;
+    remainingGifts = [...giftPools[side]];
+    clearGifts();
+  }
+
+  // 더 이상 남은 기프트 없음
+  if (remainingGifts.length === 0) return;
+
+  // 랜덤 기프트 하나 뽑기
+  const index = Math.floor(Math.random() * remainingGifts.length);
+  const src = remainingGifts.splice(index, 1)[0];
+
+  const gift = document.createElement('img');
+  gift.className = 'gift';
+  gift.src = src;
+
+  const padding = 120;
+  const x = Math.random() * (window.innerWidth - padding);
+  const y = Math.random() * (window.innerHeight - padding);
+
+  gift.style.left = `${x}px`;
+  gift.style.top = `${y}px`;
+
+  document.getElementById('gift-layer').appendChild(gift);
+
+  // ✅ 마지막 기프트라면 → 종료 상태 진입
+  if (remainingGifts.length === 0) {
+    isFinished = true;
+
+    const hint = document.createElement('div');
+    hint.className = 'hint';
+    hint.textContent = 'Click once more to reset';
+
+    document.body.appendChild(hint);
+
+    setTimeout(() => hint.remove(), 3000);
+  }20
+}
+
+
+    document.querySelector('.drink-wrap.drink-left')
+      .addEventListener('click', () => spawnGift('left'));
+
+    document.querySelector('.drink-wrap.drink-right')
+      .addEventListener('click', () => spawnGift('right'));
+  </script>
+
+</body>
+</html>
