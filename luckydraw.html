@@ -22,10 +22,7 @@ body {
   -webkit-tap-highlight-color: transparent; /* 모바일 터치 강조 제거 */
 }
 
-/* 모바일 더블탭 확대 방지 */
-* {
-  touch-action: manipulation;
-}
+
 
   
 /* ---------------- fixed UI ---------------- */
@@ -64,6 +61,7 @@ body {
 }
 
 .draw-trigger {
+  touch-action: manipulation;
   position: relative;
   cursor: pointer;
   display: flex;
